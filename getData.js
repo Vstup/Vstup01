@@ -4,7 +4,7 @@ const parser = require('./parser');
 const server = require('./app');
 let result;
 
-function get(path) {
+function get(path,pib,prior) {
     let data;
     request(path, function (err, res, body) {
         if (err) throw err;
@@ -12,7 +12,7 @@ function get(path) {
         if (res.statusCode) {
             result = parser.parse(body);
             module.exports.obj = result;
-            server.answer();
+            server.answer(pib,prior);
 
         }
 

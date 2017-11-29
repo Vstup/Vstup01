@@ -16,10 +16,10 @@ const server = (req, res)=>{
         let path = data.path;
         const pib = data.pib;
         const prior = data.prior;
-        get.getData(path);
+        get.getData(path,pib,prior);
 
         // noinspection JSAnnotator
-        function answer() {
+        function answer(pib,prior) {
             info = get.obj;
             const causes = {
                 'first':func.getNumOfOnePriority(info,pib),
