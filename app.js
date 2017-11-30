@@ -5,11 +5,15 @@ const url = require('url');
 const fs = require('fs');
 const func = require('./functions');
 const get = require('./getData');
+const stat = require('node-static');
+const fileServer = new stat.Server( './public', {
+    cache: 3600,
+    gzip: true
+} );
 
 let info;
-
 const server = (req, res)=>{
-
+    
     const q = url.parse(req.url, true);
     const data = q.query;
     if (data.path){
@@ -33,9 +37,13 @@ const server = (req, res)=>{
         module.exports.answer = answer ;
 
             }else {
-            //res.write(fs.readFileSync('home.html','utf8'));
-            res.end(fs.readFileSync('home.html','utf8'));
+                req.addListener( 'end', function () {
+                    fileServer.serve( req, res );
+                } ).resume();
+
+
     }
 };
 
 const runServer = http.createServer(server).listen(8080);
+
